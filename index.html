@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Card Soja com Supabase</title>
+  <title>Card Soja - Supabase</title>
   <style>
     .card {
       border: 1px solid #ccc;
@@ -40,6 +40,60 @@
       color: #333;
     }
   </style>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const supabaseUrl = "https://dylziaqkyavkfwjepqkp.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM";
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    window.salvarDados = async function () {
+      const estoqueAtual = document.getElementById("estoqueAtual").value;
+      const meta = document.getElementById("meta").value;
+      const recebimento = document.getElementById("recebimento").value;
+
+      if (!estoqueAtual || !meta || !recebimento) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      const { error } = await supabase.from("soja").insert([{
+        estoqueatual: Number(estoqueAtual),
+        meta: Number(meta),
+        recebimento: Number(recebimento),
+        timestamp: new Date().toISOString()
+      }]);
+
+      if (error) {
+        console.error(error);
+        alert("Erro ao salvar os dados.");
+      } else {
+        alert("Dados salvos com sucesso!");
+        carregarUltimoRegistro();
+      }
+    };
+
+    async function carregarUltimoRegistro() {
+      const { data, error } = await supabase
+        .from("soja")
+        .select("*")
+        .order("timestamp", { ascending: false })
+        .limit(1);
+
+      if (data && data.length > 0) {
+        const dado = data[0];
+        document.getElementById("ultimosDados").innerHTML = `
+          <strong>Último Registro:</strong><br>
+          Estoque Atual: ${dado.estoqueatual}<br>
+          Meta: ${dado.meta}<br>
+          Recebimento: ${dado.recebimento}
+        `;
+      }
+    }
+
+    carregarUltimoRegistro();
+  </script>
 </head>
 <body>
 
@@ -54,73 +108,8 @@
   <div id="ultimosDados"></div>
 </div>
 
-<!-- Imagem decorativa -->
 <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Soja" style="width: 200px;">
 
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-  const SUPABASE_URL = 'https://dylziaqkyavkfwjepqkp.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM';
-
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  async function salvarDados() {
-    const estoqueAtual = document.getElementById("estoqueAtual").value;
-    const meta = document.getElementById("meta").value;
-    const recebimento = document.getElementById("recebimento").value;
-
-    if (!estoqueAtual || !meta || !recebimento) {
-      alert("Preencha todos os campos!");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('soja')
-      .insert([
-        {
-          estoqueatual: parseFloat(estoqueAtual),
-          meta: parseFloat(meta),
-          recebimento: parseFloat(recebimento),
-          timestamp: new Date().toISOString()
-        }
-      ]);
-
-    if (error) {
-      console.error("Erro:", error);
-      alert("Erro ao salvar dados.");
-    } else {
-      alert("Dados salvos com sucesso!");
-      carregarUltimoRegistro();
-    }
-  }
-
-  async function carregarUltimoRegistro() {
-    const { data, error } = await supabase
-      .from('soja')
-      .select('*')
-      .order('timestamp', { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.error("Erro ao buscar:", error);
-      return;
-    }
-
-    if (data.length > 0) {
-      const d = data[0];
-      document.getElementById("ultimosDados").innerHTML = `
-        <h4>Último Registro:</h4>
-        Estoque Atual: ${d.estoqueatual}<br>
-        Meta: ${d.meta}<br>
-        Recebimento: ${d.recebimento}
-      `;
-    }
-  }
-
-  carregarUltimoRegistro();
-</script>
 </body>
 </html>
-
 
