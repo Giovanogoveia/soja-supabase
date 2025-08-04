@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Card Soja com Supabase</title>
   <style>
     .card {
@@ -43,7 +43,6 @@
 </head>
 <body>
 
-<!-- Card Soja -->
 <div class="card">
   <div class="heading"><strong>Soja</strong></div>
   <input type="number" id="estoqueAtual" placeholder="Estoque Atual">
@@ -54,39 +53,41 @@
   <div id="ultimosDados"></div>
 </div>
 
-<!-- Imagem -->
 <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Soja" style="width: 200px;">
 
-<!-- Supabase JS -->
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-  const supabase = supabase.createClient(
-    'https://dylziaqkyavkfwjepqkp.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM'
-  );
+  // ✅ Sua URL e Chave
+  const SUPABASE_URL = 'https://dylziaqkyavkfwjepqkp.supabase.co';
+  const SUPABASE_ANON_KEY = 'coloque_sua_chave_anon_aqui';
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   async function salvarDados() {
-    const estoqueAtual = Number(document.getElementById("estoqueAtual").value);
-    const meta = Number(document.getElementById("meta").value);
-    const recebimento = Number(document.getElementById("recebimento").value);
+    const estoqueAtual = document.getElementById("estoqueAtual").value;
+    const meta = document.getElementById("meta").value;
+    const recebimento = document.getElementById("recebimento").value;
 
     if (!estoqueAtual || !meta || !recebimento) {
       alert("Preencha todos os campos!");
       return;
     }
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('soja')
-      .insert([{
-        estoqueatual: estoqueAtual,
-        meta: meta,
-        recebimento: recebimento,
-        timestamp: new Date().toISOString()
-      }]);
+      .insert([
+        {
+          estoqueatual: parseFloat(estoqueAtual),
+          meta: parseFloat(meta),
+          recebimento: parseFloat(recebimento),
+          timestamp: new Date().toISOString()
+        }
+      ]);
 
     if (error) {
-      alert("Erro ao salvar dados.");
-      console.error(error);
+      console.error("Erro:", error);
+      alert("Erro ao salvar dados!");
     } else {
       alert("Dados salvos com sucesso!");
       carregarUltimoRegistro();
@@ -101,24 +102,23 @@
       .limit(1);
 
     if (error) {
-      console.error("Erro ao buscar dados:", error);
+      console.error("Erro ao carregar:", error);
       return;
     }
 
     if (data.length > 0) {
-      const registro = data[0];
+      const d = data[0];
       document.getElementById("ultimosDados").innerHTML = `
         <h4>Último Registro:</h4>
-        Estoque Atual: ${registro.estoqueatual}<br>
-        Meta: ${registro.meta}<br>
-        Recebimento: ${registro.recebimento}
+        Estoque Atual: ${d.estoqueatual}<br>
+        Meta: ${d.meta}<br>
+        Recebimento: ${d.recebimento}
       `;
     }
   }
 
   carregarUltimoRegistro();
 </script>
-
 </body>
 </html>
 
