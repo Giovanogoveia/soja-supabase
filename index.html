@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Card Soja com Supabase</title>
   <style>
     .card {
@@ -43,6 +43,7 @@
 </head>
 <body>
 
+<!-- Card Soja -->
 <div class="card">
   <div class="heading"><strong>Soja</strong></div>
   <input type="number" id="estoqueAtual" placeholder="Estoque Atual">
@@ -53,14 +54,14 @@
   <div id="ultimosDados"></div>
 </div>
 
+<!-- Imagem decorativa -->
 <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Soja" style="width: 200px;">
 
-<!-- Supabase -->
+<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-  // ✅ Sua URL e Chave
   const SUPABASE_URL = 'https://dylziaqkyavkfwjepqkp.supabase.co';
-  const SUPABASE_ANON_KEY = 'coloque_sua_chave_anon_aqui';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM';
 
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -87,7 +88,7 @@
 
     if (error) {
       console.error("Erro:", error);
-      alert("Erro ao salvar dados!");
+      alert("Erro ao salvar dados.");
     } else {
       alert("Dados salvos com sucesso!");
       carregarUltimoRegistro();
@@ -102,7 +103,7 @@
       .limit(1);
 
     if (error) {
-      console.error("Erro ao carregar:", error);
+      console.error("Erro ao buscar:", error);
       return;
     }
 
