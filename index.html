@@ -1,124 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Card Soja com Supabase</title>
+  <meta charset="UTF-8" />
+  <title>Card Soja - Supabase</title>
   <style>
     .card {
       border: 1px solid #ccc;
       padding: 15px;
       width: 300px;
       border-radius: 8px;
-      margin-bottom: 15px;
-      font-family: Arial, sans-serif;
+      font-family: Arial;
     }
-    .card input {
+    input {
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
     }
     .btn2 {
-      padding: 8px 12px;
       background: green;
       color: white;
+      padding: 8px 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
-    }
-    .btn2:hover {
-      background-color: darkgreen;
-    }
-    .price {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    #ultimosDados {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
     }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h3>Soja</h3>
+    <input type="number" id="estoqueAtual" placeholder="Estoque Atual" />
+    <input type="number" id="meta" placeholder="Meta" />
+    <input type="number" id="recebimento" placeholder="Recebimento" />
+    <p>Preço: R$ <span>114,50</span></p>
+    <button class="btn2" onclick="salvarDados()">Atualizar</button>
+    <div id="ultimosDados"></div>
+  </div>
 
-<div class="card">
-  <div class="heading"><strong>Soja</strong></div>
-  <input type="number" id="estoqueAtual" placeholder="Estoque Atual">
-  <input type="number" id="meta" placeholder="Meta">
-  <input type="number" id="recebimento" placeholder="Recebimento">
-  <div class="price">Preço: R$ <span id="preco">114,50</span></div>
-  <button class="btn2" onclick="salvarDados()">Atualizar</button>
-  <div id="ultimosDados"></div>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL = "https://dylziaqkyavkfwjepqkp.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM";
 
-<img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Soja" style="width: 200px;">
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-<!-- Supabase JS SDK (CDN) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/+esm"></script>
-<script>
-  // Inicializa conexão com Supabase
-  const supabaseUrl = "https://dylziaqkyavkfwjepqkp.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    async function salvarDados() {
+      const estoqueAtual = document.getElementById("estoqueAtual").value;
+      const meta = document.getElementById("meta").value;
+      const recebimento = document.getElementById("recebimento").value;
 
-  // Salvar dados no Supabase
-  async function salvarDados() {
-    const estoqueAtual = document.getElementById("estoqueAtual").value;
-    const meta = document.getElementById("meta").value;
-    const recebimento = document.getElementById("recebimento").value;
+      if (!estoqueAtual || !meta || !recebimento) {
+        alert("Preencha todos os campos.");
+        return;
+      }
 
-    if (!estoqueAtual || !meta || !recebimento) {
-      alert("Preencha todos os campos!");
-      return;
+      const { error } = await supabase
+        .from("soja")
+        .insert([
+          {
+            estoqueatual: Number(estoqueAtual),
+            meta: Number(meta),
+            recebimento: Number(recebimento),
+            timestamp: new Date()
+          }
+        ]);
+
+      if (error) {
+        alert("Erro ao salvar: " + error.message);
+      } else {
+        alert("Salvo com sucesso!");
+        carregarUltimo();
+      }
     }
 
-    const { error } = await supabase
-      .from("soja")
-      .insert([{
-        estoqueatual: Number(estoqueAtual),
-        meta: Number(meta),
-        recebimento: Number(recebimento),
-        timestamp: new Date().toISOString()
-      }]);
+    async function carregarUltimo() {
+      const { data, error } = await supabase
+        .from("soja")
+        .select("*")
+        .order("timestamp", { ascending: false })
+        .limit(1);
 
-    if (error) {
-      console.error("Erro ao salvar dados:", error);
-      alert("Erro ao salvar dados.");
-    } else {
-      alert("Dados salvos com sucesso!");
-      carregarUltimoRegistro();
-    }
-  }
+      if (error || !data || data.length === 0) {
+        document.getElementById("ultimosDados").innerText = "Nenhum dado ainda.";
+        return;
+      }
 
-  // Buscar último registro
-  async function carregarUltimoRegistro() {
-    const { data, error } = await supabase
-      .from("soja")
-      .select("*")
-      .order("timestamp", { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.error("Erro ao carregar dados:", error);
-      return;
-    }
-
-    if (data.length > 0) {
-      const registro = data[0];
+      const item = data[0];
       document.getElementById("ultimosDados").innerHTML = `
-        <h4>Último Registro:</h4>
-        Estoque Atual: ${registro.estoqueatual}<br>
-        Meta: ${registro.meta}<br>
-        Recebimento: ${registro.recebimento}
+        <strong>Último Registro:</strong><br>
+        Estoque Atual: ${item.estoqueatual}<br>
+        Meta: ${item.meta}<br>
+        Recebimento: ${item.recebimento}
       `;
     }
-  }
 
-  carregarUltimoRegistro();
-</script>
-
+    carregarUltimo();
+  </script>
 </body>
 </html>
+
 
