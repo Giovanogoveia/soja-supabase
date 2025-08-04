@@ -62,6 +62,25 @@
     const form = document.getElementById('formSoja');
     const msg = document.getElementById('mensagem');
 
+    // ✅ Buscar último registro e preencher os campos
+    window.addEventListener('DOMContentLoaded', async () => {
+      const { data, error } = await supabase
+        .from('soja')
+        .select('*')
+        .order('timestamp', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        msg.innerHTML = `<span style="color:red;">Erro ao buscar dados: ${error.message}</span>`;
+      } else if (data.length > 0) {
+        const ultimo = data[0];
+        document.getElementById('estoque').value = ultimo.estoqueatual ?? '';
+        document.getElementById('meta').value = ultimo.meta ?? '';
+        document.getElementById('recebimento').value = ultimo.recebimento ?? '';
+      }
+    });
+
+    // ✅ Enviar novo registro
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -79,7 +98,7 @@
         }]);
 
       if (error) {
-        msg.innerHTML = `<span style="color:red;">Erro: ${error.message}</span>`;
+        msg.innerHTML = `<span style="color:red;">Erro ao salvar: ${error.message}</span>`;
       } else {
         msg.innerHTML = `<span style="color:green;">Dados salvos com sucesso!</span>`;
         form.reset();
@@ -89,5 +108,3 @@
 
 </body>
 </html>
-
-
