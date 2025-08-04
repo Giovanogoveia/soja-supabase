@@ -2,131 +2,88 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Card Soja com Supabase</title>
+  <title>Cadastro de Soja</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    .card {
-      border: 1px solid #ccc;
-      padding: 15px;
-      width: 300px;
-      border-radius: 8px;
-      margin-bottom: 15px;
+    body {
       font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
     }
-    .card input {
+    input {
       width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      box-sizing: border-box;
     }
-    .btn2 {
-      padding: 8px 12px;
-      background: green;
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background-color: #28a745;
       color: white;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
     }
-    .btn2:hover {
-      background-color: darkgreen;
+    button:hover {
+      background-color: #218838;
     }
-    .price {
+    .mensagem {
       margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    #ultimosDados {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
     }
   </style>
 </head>
 <body>
 
-<!-- Card Soja -->
-<div class="card">
-  <div class="heading"><strong>Soja</strong></div>
-  <input type="number" id="estoqueAtual" placeholder="Estoque Atual">
-  <input type="number" id="meta" placeholder="Meta">
-  <input type="number" id="recebimento" placeholder="Recebimento">
-  <div class="price">Preço: R$ <span id="preco">114,50</span></div>
-  <button class="btn2" onclick="salvarDados()">Atualizar</button>
-  <div id="ultimosDados"></div>
-</div>
+  <h2>Cadastro de Dados - Soja</h2>
+  <form id="formSoja">
+    <label for="estoque">Estoque Atual:</label>
+    <input type="number" id="estoque" required>
 
-<!-- Imagem -->
-<img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Soja" style="width: 200px;">
+    <label for="meta">Meta:</label>
+    <input type="number" id="meta" required>
 
-<!-- 1. Carrega biblioteca Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/+esm"></script>
+    <label for="recebimento">Recebimento:</label>
+    <input type="number" id="recebimento" required>
 
-<!-- 2. Script funcional -->
-<script>
-  const SUPABASE_URL = "https://dylziaqkyavkfwjepqkp.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM";
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem"></div>
+  </form>
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <script>
+    const SUPABASE_URL = "https://dylziaqkyavkfwjepqkp.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM";
 
-  async function salvarDados() {
-    const estoqueAtual = document.getElementById("estoqueAtual").value;
-    const meta = document.getElementById("meta").value;
-    const recebimento = document.getElementById("recebimento").value;
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (!estoqueAtual || !meta || !recebimento) {
-      alert("Preencha todos os campos!");
-      return;
-    }
+    const form = document.getElementById('formSoja');
+    const msg = document.getElementById('mensagem');
 
-    const { error } = await supabase
-      .from("soja")
-      .insert([
-        {
-          estoqueatual: Number(estoqueAtual),
-          meta: Number(meta),
-          recebimento: Number(recebimento),
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const estoque = parseFloat(document.getElementById('estoque').value);
+      const meta = parseFloat(document.getElementById('meta').value);
+      const recebimento = parseFloat(document.getElementById('recebimento').value);
+
+      const { data, error } = await supabase
+        .from('soja')
+        .insert([{
+          estoqueatual: estoque,
+          meta: meta,
+          recebimento: recebimento,
           timestamp: new Date().toISOString()
-        }
-      ]);
+        }]);
 
-    if (error) {
-      console.error("Erro ao salvar dados:", error);
-      alert("Erro ao salvar os dados.");
-    } else {
-      alert("Dados salvos com sucesso!");
-      carregarUltimoRegistro();
-    }
-  }
-
-  async function carregarUltimoRegistro() {
-    const { data, error } = await supabase
-      .from("soja")
-      .select("*")
-      .order("timestamp", { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.error("Erro ao buscar último registro:", error);
-      return;
-    }
-
-    if (data.length > 0) {
-      const registro = data[0];
-      const html = `
-        <h4>Último Registro:</h4>
-        Estoque Atual: ${registro.estoqueatual}<br>
-        Meta: ${registro.meta}<br>
-        Recebimento: ${registro.recebimento}
-      `;
-      document.getElementById("ultimosDados").innerHTML = html;
-    } else {
-      document.getElementById("ultimosDados").innerHTML = "Nenhum dado encontrado.";
-    }
-  }
-
-  carregarUltimoRegistro();
-</script>
+      if (error) {
+        msg.innerHTML = `<span style="color:red;">Erro: ${error.message}</span>`;
+      } else {
+        msg.innerHTML = `<span style="color:green;">Dados salvos com sucesso!</span>`;
+        form.reset();
+      }
+    });
+  </script>
 
 </body>
 </html>
-
-
