@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Cadastro de Dados - Soja</title>
   <style>
+  
+  
+  
+  /* grupo de cadastro ao banco de dados */
     body {
       font-family: Arial, sans-serif;
       max-width: 500px;
@@ -32,10 +36,13 @@
       margin-top: 10px;
       font-weight: bold;
     }
+  /*********************************************************************************
+  
   </style>
 </head>
 <body>
-
+  
+  <!--formulario de Cadastro ao bamco de dados -->
   <h2>Cadastro de Dados - Soja</h2>
   <form id="formSoja">
     <label for="estoque">Estoque Atual:</label>
@@ -54,7 +61,9 @@
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem"></div>
   </form>
+  <!--********************************************************************** -->
 
+  <!--Script java script para acessar as os   BANCO DE DADOS  -->
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -65,11 +74,12 @@
 
     const form = document.getElementById('formSoja');
     const msg = document.getElementById('mensagem');
+  //***************************************************************************************
 
     // ✅ Buscar último registro e preencher os campos do site
     window.addEventListener('DOMContentLoaded', async () => {
       const { data, error } = await supabase
-        .from('soja')
+        .from('soja') //BANCO DE DADOS
         .select('*')
         .order('timestamp', { ascending: false })
         .limit(1);
@@ -84,6 +94,9 @@
         document.getElementById('percentual_metal').value = ultimo.percentual_metal ??'';
       }
     });
+    //*******************************************************************************
+    
+    
 
     // ✅ Enviar novo registro SALVAR OS DADOS NO BANCO DE DADOS DO SUPABASE
     form.addEventListener('submit', async (e) => {
@@ -103,7 +116,8 @@
           percentual_metal: percentual_metal,
           timestamp: new Date().toISOString()
         }]);
-
+//******************************************************************************
+//log de erro ao salvar no BANCO DE DADOS
       if (error) {
         msg.innerHTML = `<span style="color:red;">Erro ao salvar: ${error.message}</span>`;
       } else {
