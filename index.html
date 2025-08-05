@@ -177,7 +177,8 @@
     <div class="card">
       <div class="heading">Lenha:</div>
       <div class="details">Estoque Atual: 1.150.000 <br>Meta: 1.800.000:<br>Recebimento: 1.792.000</div>
-      <div class="price">R$: 114,50</div>
+      <div class="price" id="preco-soja">R$: 114,50</div>
+
       <button class="btn2">Atualizar:</button>
     </div>
     <!-- Imagem de lenha-->
@@ -269,6 +270,7 @@
         document.getElementById('meta').value = ultimo.meta ?? '';
         document.getElementById('recebimento').value = ultimo.recebimento ?? '';
         document.getElementById('percentual_metal').value = ultimo.percentual_metal ??'';
+        document.getElementById('preco-soja').value = ultimo.preco-soja ??'';
       }
     });
     //*******************************************************************************
@@ -306,3 +308,4 @@
 
 </body>
 </html>
+
