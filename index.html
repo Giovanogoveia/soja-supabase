@@ -41,11 +41,15 @@
     <label for="estoque">Estoque Atual:</label>
     <input type="number" id="estoque" required>
 
-    <label for="meta">Meta:</label>
-    <input type="number" id="meta" required>
+    <label for="percentual_meta">%meta:</label>
+    <input type="number" id="percentual_meta" required>
+
 
     <label for="recebimento">Recebimento:</label>
     <input type="number" id="recebimento" required>
+    
+    <label for="percentual_metal">%meta:</label>
+    <input type="number" id="percentual_metal" required>
 
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem"></div>
@@ -62,7 +66,7 @@
     const form = document.getElementById('formSoja');
     const msg = document.getElementById('mensagem');
 
-    // ✅ Buscar último registro e preencher os campos
+    // ✅ Buscar último registro e preencher os campos do site
     window.addEventListener('DOMContentLoaded', async () => {
       const { data, error } = await supabase
         .from('soja')
@@ -77,16 +81,18 @@
         document.getElementById('estoque').value = ultimo.estoqueatual ?? '';
         document.getElementById('meta').value = ultimo.meta ?? '';
         document.getElementById('recebimento').value = ultimo.recebimento ?? '';
+        document.getElementById('percentual_metal').value = ultimo.percentual_metal ??'';
       }
     });
 
-    // ✅ Enviar novo registro
+    // ✅ Enviar novo registro SALVAR OS DADOS NO BANCO DE DADOS DO SUPABASE
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const estoque = parseFloat(document.getElementById('estoque').value);
       const meta = parseFloat(document.getElementById('meta').value);
       const recebimento = parseFloat(document.getElementById('recebimento').value);
+      const percentual_metal = parseFloat(document.getElementById('percentual_metal').value);
 
       const { data, error } = await supabase
         .from('soja')
@@ -94,6 +100,7 @@
           estoqueatual: estoque,
           meta: meta,
           recebimento: recebimento,
+          percentual_metal: percentual_metal,
           timestamp: new Date().toISOString()
         }]);
 
@@ -108,3 +115,4 @@
 
 </body>
 </html>
+
