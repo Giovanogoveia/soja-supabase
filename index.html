@@ -270,7 +270,7 @@
         document.getElementById('meta').value = ultimo.meta ?? '';
         document.getElementById('recebimento').value = ultimo.recebimento ?? '';
         document.getElementById('percentual_metal').value = ultimo.percentual_metal ??'';
-         document.getElementById('preco-soja').innerText = `R$: ${data.percentual_meta}`;
+        document.getElementById('preco-soja').innerText =`R$: ${ultimo.percentual_metal.toFixed(2)}`;
       }
     });
     //*******************************************************************************
@@ -308,6 +308,7 @@
 
 </body>
 </html>
+
 
 
 
