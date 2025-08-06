@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard - Soja e Milho</title>
+  <title>Dashboard</title>
   <style>
     .main {
       display: flex;
@@ -13,112 +13,60 @@
 
     .card {
       position: relative;
-      top: 2em;
-      width: 12.5em;
-      height: 7.5em;
+      width: 200px;
       background: white;
-      transition: .4s ease-in-out;
+      transition: .3s ease;
       border-radius: 15px;
-      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
-      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1em;
+      text-align: center;
     }
 
     .heading {
-      position: center;
-      color: black;
       font-weight: bold;
       font-size: 1.1em;
-      padding-top: 1em;
-      padding-left: 1em;
-      transition: .4s ease-in-out;
+      margin-bottom: 0.5em;
     }
 
     .details {
-      position: relative;
-      color: black;
-      font-size: 0.6em;
-      padding-top: 1.5em;
-      padding-left: 2em;
-      transition: .4s ease-in-out;
+      font-size: 0.9em;
+      margin-bottom: 0.5em;
     }
 
     .price {
-      position: relative;
-      color: black;
       font-weight: bold;
-      font-size: 0.8em;
-      padding-top: 1.5em;
-      padding-left: 1.5em;
-      top: 9.6em;
-      left: 5em;
-      transition: .4s ease-in-out;
+      margin-bottom: 0.5em;
     }
 
-    .btn1, .btn2 {
-      position: relative;
-      border: none;
-      outline: none;
-      background-color: black;
+    .btn-editar {
+      padding: 6px 12px;
+      background-color: #007bff;
       color: white;
-      font-size: 0.6em;
-      border-radius: 10px;
-      left: 2.6em;
-      transition: .4s ease-in-out;
-      font-weight: bold;
-    }
-
-    .btn1 {
-      padding: 0.8em 6.9em;
-      top: 14.8em;
-    }
-
-    .btn2 {
-      padding: 0.8em 5.1em;
-      top: 15.5em;
-    }
-
-    .btn1:hover, .btn2:hover {
-      background-color: limegreen;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 0.8em;
+      width: 90%;
     }
 
-    .glasses {
-      position: relative;
-      top: -4em;
-      left: 9.5em;
-      width: 70px;
-      height: 70px;
-      transition: .4s ease-in-out;
-      border-radius: 10px;
+    .btn-editar:hover {
+      background-color: #0056b3;
     }
 
-    .card:hover {
-      height: 23em;
-      transform: translateY(1.25em);
+    .form-container {
+      display: none;
+      flex-wrap: wrap;
+      gap: 2em;
+      justify-content: center;
+      padding: 2em;
     }
-
-    .card:hover + .glasses {
-      height: 100px;
-      width: 100px;
-      left: 3em;
-      top: -18em;
-    }
-
-    .card:hover .heading {
-      transform: translateY(7em) translateX(2.3em);
-    }
-
-    .card:hover .details {
-      transform: translateY(13em) translateX(3.5em);
-    }
-    
 
     form {
-      max-width: 500px;
-      margin: 30px auto;
+      width: 250px;
       border: 1px solid #ddd;
       padding: 20px;
       border-radius: 10px;
+      background: #f9f9f9;
     }
 
     input {
@@ -146,87 +94,30 @@
       margin-top: 10px;
       font-weight: bold;
     }
-    .form-container {
-  display: none; /* começa invisível */
-  flex-wrap: wrap;
-  gap: 2em;
-  justify-content: center;
-  padding: 2em;
-}
-
   </style>
 </head>
 <body>
+
 <div class="main">
-  <!-- Card Soja -->
   <div class="card">
     <div class="heading">Soja</div>
-    <div class="details" id="detalhes-soja">
-      Estoque Atual: -- <br>
-      Meta: -- <br>
-      Recebimento: --
-    </div>
+    <div class="details" id="detalhes-soja">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
     <div class="price" id="preco-soja">R$: --</div>
+    <button onclick="mostrarFormulario('formSoja')" class="btn-editar">Editar</button>
   </div>
 
-  <!-- Card Milho -->
   <div class="card">
     <div class="heading">Milho</div>
-    <div class="details" id="detalhes-milho">
-      Estoque Atual: -- <br>
-      Meta: -- <br>
-      Recebimento: --
-    </div>
+    <div class="details" id="detalhes-milho">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
     <div class="price" id="preco-milho">R$: --</div>
-  </div>
-
-  <!-- Card Lenha -->
-  <div class="card">
-    <div class="heading">Lenha</div>
-    <div class="details" id="detalhes-lenha">
-      Estoque Atual: -- <br>
-      Meta: -- <br>
-      Recebimento: --
-    </div>
-    <div class="price" id="preco-lenha">R$: --</div>
-  </div>
-
-  <!-- Card Trigo -->
-  <div class="card">
-    <div class="heading">Trigo</div>
-    <div class="details" id="detalhes-trigo">
-      Estoque Atual: -- <br>
-      Meta: -- <br>
-      Recebimento: --
-    </div>
-    <div class="price" id="preco-trigo">R$: --</div>
-  </div>
-
-  <!-- Card Armazenamento -->
-  <div class="card">
-    <div class="heading">Armazenamento</div>
-    <div class="details" id="detalhes-armazenamento">
-      Capacidade Total: -- <br>
-      Utilizado: -- <br>
-      Disponível: --
-    </div>
-    <div class="price" id="preco-armazenamento">R$: --</div>
+    <button onclick="mostrarFormulario('formMilho')" class="btn-editar">Editar</button>
   </div>
 </div>
 
-
-
-
-
-<!-- Botão para mostrar/ocultar formulários -->
-<button onclick="toggleForms()" style="margin: 2em auto; display: block; padding: 12px 24px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
-  Mostrar / Ocultar Cadastro
-</button>
-
-<!-- Container dos formulários -->
+<!-- Container único com os formulários -->
 <div class="form-container">
   <!-- Formulário Soja -->
-  <form id="formSoja">
+  <form id="formSoja" style="display:none;">
     <h2>Cadastro Soja</h2>
     <label for="estoque">Estoque Atual:</label>
     <input type="number" id="estoque" required>
@@ -245,7 +136,7 @@
   </form>
 
   <!-- Formulário Milho -->
-  <form id="formMilho">
+  <form id="formMilho" style="display:none;">
     <h2>Cadastro Milho</h2>
     <label for="estoque_milho">Estoque Atual:</label>
     <input type="number" id="estoque_milho" required>
@@ -264,134 +155,128 @@
   </form>
 </div>
 
-<!-- Script para mostrar/ocultar os formulários -->
 <script>
-  function toggleForms() {
-    const container = document.querySelector('.form-container');
-    if (container.style.display === 'none' || container.style.display === '') {
-      container.style.display = 'flex';
-    } else {
-      container.style.display = 'none';
-    }
+  function mostrarFormulario(id) {
+    const forms = document.querySelectorAll('.form-container form');
+    forms.forEach(form => form.style.display = 'none');
+    document.querySelector('.form-container').style.display = 'flex';
+    document.getElementById(id).style.display = 'block';
   }
 </script>
 
-</div>
+<!-- Script Supabase -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
+  const supabase = createClient(
+    "https://dylziaqkyavkfwjepqkp.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM"
+  );
 
-  <!-- Script Supabase -->
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const formSoja = document.getElementById('formSoja');
+  const formMilho = document.getElementById('formMilho');
+  const msgSoja = document.getElementById('mensagem');
+  const msgMilho = document.getElementById('mensagem_milho');
 
-    const supabase = createClient(
-      "https://dylziaqkyavkfwjepqkp.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM"
-    );
-
-    const formSoja = document.getElementById('formSoja');
-    const formMilho = document.getElementById('formMilho');
-    const msgSoja = document.getElementById('mensagem');
-    const msgMilho = document.getElementById('mensagem_milho');
-
-    async function carregarCard() {
-      // Buscar dados da tabela SOJA
+  async function carregarCard() {
+    try {
+      // Soja
       const { data: dataSoja } = await supabase
         .from('soja')
         .select('*')
         .order('timestamp', { ascending: false })
         .limit(1);
 
-      if (dataSoja && dataSoja.length > 0) {
+      if (dataSoja?.length > 0) {
         const s = dataSoja[0];
         document.getElementById('detalhes-soja').innerHTML = `
           Estoque Atual: ${s.estoqueatual.toLocaleString()} <br>
           Meta: ${s.meta.toLocaleString()} <br>
           Recebimento: ${s.recebimento.toLocaleString()}`;
         document.getElementById('preco-soja').innerText = `R$: ${s.percentual_metal.toFixed(2)}`;
-
-        // preencher form
         document.getElementById('estoque').value = s.estoqueatual;
         document.getElementById('meta').value = s.meta;
         document.getElementById('recebimento').value = s.recebimento;
         document.getElementById('percentual_metal').value = s.percentual_metal;
       }
 
-      // Buscar dados da tabela MILHO
+      // Milho
       const { data: dataMilho } = await supabase
         .from('milho')
         .select('*')
         .order('timestamp', { ascending: false })
         .limit(1);
 
-      if (dataMilho && dataMilho.length > 0) {
+      if (dataMilho?.length > 0) {
         const m = dataMilho[0];
         document.getElementById('detalhes-milho').innerHTML = `
           Estoque Atual: ${m.estoqueatual.toLocaleString()} <br>
           Meta: ${m.meta.toLocaleString()} <br>
           Recebimento: ${m.recebimento.toLocaleString()}`;
         document.getElementById('preco-milho').innerText = `R$: ${m.percentual_metal.toFixed(2)}`;
-
-        // preencher form milho
         document.getElementById('estoque_milho').value = m.estoqueatual;
         document.getElementById('meta_milho').value = m.meta;
         document.getElementById('recebimento_milho').value = m.recebimento;
         document.getElementById('percentual_metal_milho').value = m.percentual_metal;
       }
+
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error);
     }
+  }
 
-    window.addEventListener('DOMContentLoaded', carregarCard);
+  window.addEventListener('DOMContentLoaded', carregarCard);
 
-    formSoja.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  formSoja.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const estoque = parseFloat(document.getElementById('estoque').value);
+    const meta = parseFloat(document.getElementById('meta').value);
+    const recebimento = parseFloat(document.getElementById('recebimento').value);
+    const percentual = parseFloat(document.getElementById('percentual_metal').value);
 
-      const estoque = parseFloat(document.getElementById('estoque').value);
-      const meta = parseFloat(document.getElementById('meta').value);
-      const recebimento = parseFloat(document.getElementById('recebimento').value);
-      const percentual = parseFloat(document.getElementById('percentual_metal').value);
+    const { error } = await supabase.from('soja').insert([{
+      estoqueatual: estoque,
+      meta: meta,
+      recebimento: recebimento,
+      percentual_metal: percentual,
+      timestamp: new Date().toISOString()
+    }]);
 
-      const { error } = await supabase.from('soja').insert([{
-        estoqueatual: estoque,
-        meta: meta,
-        recebimento: recebimento,
-        percentual_metal: percentual,
-        timestamp: new Date().toISOString()
-      }]);
+    msgSoja.innerHTML = error
+      ? `<span style="color:red;">Erro: ${error.message}</span>`
+      : `<span style="color:green;">Dados salvos com sucesso!</span>`;
 
-      msgSoja.innerHTML = error
-        ? `<span style="color:red;">Erro: ${error.message}</span>`
-        : `<span style="color:green;">Dados salvos com sucesso!</span>`;
+    if (!error) {
+      formSoja.reset();
+      carregarCard();
+    }
+  });
 
-      if (!error) {
-        formSoja.reset();
-        carregarCard();
-      }
-    });
+  formMilho.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const estoque = parseFloat(document.getElementById('estoque_milho').value);
+    const meta = parseFloat(document.getElementById('meta_milho').value);
+    const recebimento = parseFloat(document.getElementById('recebimento_milho').value);
+    const percentual = parseFloat(document.getElementById('percentual_metal_milho').value);
 
-    formMilho.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    const { error } = await supabase.from('milho').insert([{
+      estoqueatual: estoque,
+      meta: meta,
+      recebimento: recebimento,
+      percentual_metal: percentual,
+      timestamp: new Date().toISOString()
+    }]);
 
-      const estoque = parseFloat(document.getElementById('estoque_milho').value);
-      const meta = parseFloat(document.getElementById('meta_milho').value);
-      const recebimento = parseFloat(document.getElementById('recebimento_milho').value);
-      const percentual = parseFloat(document.getElementById('percentual_metal_milho').value);
+    msgMilho.innerHTML = error
+      ? `<span style="color:red;">Erro: ${error.message}</span>`
+      : `<span style="color:green;">Dados salvos com sucesso!</span>`;
 
-      const { error } = await supabase.from('milho').insert([{
-        estoqueatual: estoque,
-        meta: meta,
-        recebimento: recebimento,
-        percentual_metal: percentual,
-        timestamp: new Date().toISOString()
-      }]);
+    if (!error) {
+      formMilho.reset();
+      carregarCard();
+    }
+  });
+</script>
 
-      msgMilho.innerHTML = error
-        ? `<span style="color:red;">Erro: ${error.message}</span>`
-        : `<span style="color:green;">Dados salvos com sucesso!</span>`;
-
-      if (!error) {
-        formMilho.reset();
-        carregarCard();
-      }
-    });
-  </script>
 </body>
 </html>
