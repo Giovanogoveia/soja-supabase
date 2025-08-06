@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -149,8 +148,6 @@
 
 <body>  
 <div class="main">
-
-  
   
   <!-- Card Soja -->
   <div class="card">
@@ -165,12 +162,14 @@
     <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Óculos"/>
     </div>
   
-  <div>
     <div class="card">
-      <div class="heading">Soja:</div>
-      <div class="details">Estoque Atual: 1.150.000 <br>Meta: 1.800.000:<br>Recebimento: 1.792.000</div>
-      <div class="price">R$: 114,50</div>      
+      <div class="heading">Milho:</div>
+      <div class="details" id="detalhes-milho">
+      Estoque Atual: -- <br>
+      Meta: -- <br>
+      Recebimento: --
     </div>
+    <div class="price" id="preco-milho">R$: --</div>
     <!-- Imagem dos soja -->
     <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Óculos"/>
     </div>    
@@ -365,15 +364,27 @@
         document.getElementById('recebimento').value = ultimo.recebimento ?? '';
         document.getElementById('percentual_metal').value = ultimo.percentual_metal ?? '';
 
-        // Atualizar o card
+        // Atualizar o card soja
         document.getElementById('detalhes-soja').innerHTML = `
-          Estoque Atual: ${ultimo.estoqueatual.toLocaleString()} <br>
-          Meta: ${ultimo.meta.toLocaleString()} <br>
-          Recebimento: ${ultimo.recebimento.toLocaleString()}
+        Estoque Atual: ${ultimo.estoqueatual.toLocaleString()} <br>
+        Meta: ${ultimo.meta.toLocaleString()} <br>
+        Recebimento: ${ultimo.recebimento.toLocaleString()}
         `;
         document.getElementById('preco-soja').innerText = `R$: ${ultimo.percentual_metal.toFixed(2)}`;
+      
+    
+    
+    // Atualizar o card milho
+        document.getElementById('detalhes-milho').innerHTML = `
+        Estoque Atual: ${ultimo.estoqueatual.toLocaleString()} <br>
+        Meta: ${ultimo.meta.toLocaleString()} <br>
+        Recebimento: ${ultimo.recebimento.toLocaleString()}
+        `;
+        document.getElementById('preco-mlho').innerText = `R$: ${ultimo.percentual_metal.toFixed(2)}`;
       }
     }
+    
+    
 
     window.addEventListener('DOMContentLoaded', carregarCard);
 
@@ -407,6 +418,5 @@
   </script>
 </body>
 </html>
-
 
 
