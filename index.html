@@ -13,33 +13,105 @@
 
     .card {
       position: relative;
-      width: 200px;
-      height: 160px;
+      top: 2em;
+      width: 12.5em;
+      height: 7.5em;
       background: white;
       transition: .4s ease-in-out;
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 1em;
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+      overflow: hidden;
     }
 
     .heading {
+      position: center;
       color: black;
       font-weight: bold;
-      font-size: 1.2em;
-      margin-bottom: 0.5em;
+      font-size: 1.1em;
+      padding-top: 1em;
+      padding-left: 1em;
+      transition: .4s ease-in-out;
     }
 
     .details {
+      position: relative;
       color: black;
-      font-size: 0.9em;
+      font-size: 0.6em;
+      padding-top: 1.5em;
+      padding-left: 2em;
+      transition: .4s ease-in-out;
     }
 
     .price {
+      position: relative;
       color: black;
       font-weight: bold;
-      font-size: 1em;
-      margin-top: 1em;
+      font-size: 0.8em;
+      padding-top: 1.5em;
+      padding-left: 1.5em;
+      top: 9.6em;
+      left: 5em;
+      transition: .4s ease-in-out;
     }
+
+    .btn1, .btn2 {
+      position: relative;
+      border: none;
+      outline: none;
+      background-color: black;
+      color: white;
+      font-size: 0.6em;
+      border-radius: 10px;
+      left: 2.6em;
+      transition: .4s ease-in-out;
+      font-weight: bold;
+    }
+
+    .btn1 {
+      padding: 0.8em 6.9em;
+      top: 14.8em;
+    }
+
+    .btn2 {
+      padding: 0.8em 5.1em;
+      top: 15.5em;
+    }
+
+    .btn1:hover, .btn2:hover {
+      background-color: limegreen;
+      cursor: pointer;
+    }
+
+    .glasses {
+      position: relative;
+      top: -4em;
+      left: 9.5em;
+      width: 70px;
+      height: 70px;
+      transition: .4s ease-in-out;
+      border-radius: 10px;
+    }
+
+    .card:hover {
+      height: 23em;
+      transform: translateY(1.25em);
+    }
+
+    .card:hover + .glasses {
+      height: 100px;
+      width: 100px;
+      left: 3em;
+      top: -18em;
+    }
+
+    .card:hover .heading {
+      transform: translateY(7em) translateX(2.3em);
+    }
+
+    .card:hover .details {
+      transform: translateY(13em) translateX(3.5em);
+    }
+    
 
     form {
       max-width: 500px;
@@ -102,17 +174,24 @@
     </div>
   </div>
 
+  <!-- Container dos formulários -->
+<div class="form-container">
+
   <!-- Formulário Soja -->
   <form id="formSoja">
     <h2>Cadastro Soja</h2>
     <label for="estoque">Estoque Atual:</label>
     <input type="number" id="estoque" required>
+    
     <label for="meta">Meta:</label>
     <input type="number" id="meta" required>
+    
     <label for="recebimento">Recebimento:</label>
     <input type="number" id="recebimento" required>
+    
     <label for="percentual_metal">Percentual Meta:</label>
     <input type="number" id="percentual_metal" required>
+    
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem"></div>
   </form>
@@ -122,15 +201,22 @@
     <h2>Cadastro Milho</h2>
     <label for="estoque_milho">Estoque Atual:</label>
     <input type="number" id="estoque_milho" required>
+    
     <label for="meta_milho">Meta:</label>
     <input type="number" id="meta_milho" required>
+    
     <label for="recebimento_milho">Recebimento:</label>
     <input type="number" id="recebimento_milho" required>
+    
     <label for="percentual_metal_milho">Percentual Meta:</label>
     <input type="number" id="percentual_metal_milho" required>
+    
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem_milho"></div>
   </form>
+
+</div>
+
 
   <!-- Script Supabase -->
   <script type="module">
@@ -248,6 +334,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
