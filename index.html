@@ -146,52 +146,110 @@
       margin-top: 10px;
       font-weight: bold;
     }
+    .form-container {
+  display: none; /* começa invisível */
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+  padding: 2em;
+}
+
   </style>
 </head>
 <body>
-
-  <div class="main">
-    <!-- Card Soja -->
-    <div class="card">
-      <div class="heading">Soja</div>
-      <div class="details" id="detalhes-soja">
-        Estoque Atual: -- <br>
-        Meta: -- <br>
-        Recebimento: --
-      </div>
-      <div class="price" id="preco-soja">R$: --</div>
+<div class="main">
+  <!-- Card Soja -->
+  <div class="card">
+    <div class="heading">Soja</div>
+    <div class="details" id="detalhes-soja">
+      Estoque Atual: -- <br>
+      Meta: -- <br>
+      Recebimento: --
     </div>
-
-    <!-- Card Milho -->
-    <div class="card">
-      <div class="heading">Milho</div>
-      <div class="details" id="detalhes-milho">
-        Estoque Atual: -- <br>
-        Meta: -- <br>
-        Recebimento: --
-      </div>
-      <div class="price" id="preco-milho">R$: --</div>
-    </div>
+    <div class="price" id="preco-soja">R$: --</div>
   </div>
 
-  <!-- Container dos formulários -->
-<div class="form-container">
+  <!-- Card Milho -->
+  <div class="card">
+    <div class="heading">Milho</div>
+    <div class="details" id="detalhes-milho">
+      Estoque Atual: -- <br>
+      Meta: -- <br>
+      Recebimento: --
+    </div>
+    <div class="price" id="preco-milho">R$: --</div>
+  </div>
 
+  <!-- Card Lenha -->
+  <div class="card">
+    <div class="heading">Lenha</div>
+    <div class="details" id="detalhes-lenha">
+      Estoque Atual: -- <br>
+      Meta: -- <br>
+      Recebimento: --
+    </div>
+    <div class="price" id="preco-lenha">R$: --</div>
+  </div>
+
+  <!-- Card Trigo -->
+  <div class="card">
+    <div class="heading">Trigo</div>
+    <div class="details" id="detalhes-trigo">
+      Estoque Atual: -- <br>
+      Meta: -- <br>
+      Recebimento: --
+    </div>
+    <div class="price" id="preco-trigo">R$: --</div>
+  </div>
+
+  <!-- Card Armazenamento -->
+  <div class="card">
+    <div class="heading">Armazenamento</div>
+    <div class="details" id="detalhes-armazenamento">
+      Capacidade Total: -- <br>
+      Utilizado: -- <br>
+      Disponível: --
+    </div>
+    <div class="price" id="preco-armazenamento">R$: --</div>
+  </div>
+</div>
+
+  <!-- Card Armazenamento -->
+<div class="card">
+    <div class="heading">Armazenamento</div>
+    <div class="details" id="detalhes-armazenamento">
+      Capacidade Total: -- <br>
+      Utilizado: -- <br>
+      Disponível: --
+    </div>
+    <div class="price" id="preco-armazenamento">R$: --</div>
+  </div>
+
+
+
+
+<!-- Botão para mostrar/ocultar formulários -->
+<button onclick="toggleForms()" style="margin: 2em auto; display: block; padding: 12px 24px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  Mostrar / Ocultar Cadastro
+</button>
+
+<!-- Container dos formulários -->
+<div class="form-container">
   <!-- Formulário Soja -->
   <form id="formSoja">
     <h2>Cadastro Soja</h2>
     <label for="estoque">Estoque Atual:</label>
     <input type="number" id="estoque" required>
-    
+
     <label for="meta">Meta:</label>
     <input type="number" id="meta" required>
-    
+
     <label for="recebimento">Recebimento:</label>
     <input type="number" id="recebimento" required>
-    
+
     <label for="percentual_metal">Percentual Meta:</label>
     <input type="number" id="percentual_metal" required>
-    
+
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem"></div>
   </form>
@@ -201,19 +259,32 @@
     <h2>Cadastro Milho</h2>
     <label for="estoque_milho">Estoque Atual:</label>
     <input type="number" id="estoque_milho" required>
-    
+
     <label for="meta_milho">Meta:</label>
     <input type="number" id="meta_milho" required>
-    
+
     <label for="recebimento_milho">Recebimento:</label>
     <input type="number" id="recebimento_milho" required>
-    
+
     <label for="percentual_metal_milho">Percentual Meta:</label>
     <input type="number" id="percentual_metal_milho" required>
-    
+
     <button type="submit">Salvar</button>
     <div class="mensagem" id="mensagem_milho"></div>
   </form>
+</div>
+
+<!-- Script para mostrar/ocultar os formulários -->
+<script>
+  function toggleForms() {
+    const container = document.querySelector('.form-container');
+    if (container.style.display === 'none' || container.style.display === '') {
+      container.style.display = 'flex';
+    } else {
+      container.style.display = 'none';
+    }
+  }
+</script>
 
 </div>
 
@@ -334,8 +405,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
