@@ -5,122 +5,220 @@
   <title>Dashboard</title>
   <style>
     /* CONTAINER PRINCIPAL */
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  justify-content: center;
-  padding-top: 2em;
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center;
+    padding-top: 2em;
+  }
+  
+  .card:hover + .glasses {
+  transform: rotateX(360deg);
+  height: 100px;
+  width: 100px;
+  left: 3em;
+  top: -18em;
 }
 
-/* CARD */
-.card {
-  width: 200px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px;
-  padding: 1em;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
+  /* CARD - ESTILO UNIVERSO.IO */
+  .card {
+    position: relative;
+    top: 2em;
+    width: 12.5em;
+    height: 7.5em;
+    background: white;
+    transition: .4s ease-in-out;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    overflow: hidden;
+    text-align: left;
+    padding: 1em;
+  }
 
-/* TÍTULO */
-.heading {
-  color: black;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-}
+  .card:hover {
+    width: 12.5em;
+    height: 23em;
+    transform: translateY(1.25em);
+  }
+  
+  
+    .glasses {
+      position: relative;
+      top: -4em;
+      left: 9.5em;
+      width: 70px;
+      height: 70px;
+      transition: .4s ease-in-out;
+      border-radius: 10px;
+    }
 
-/* DETALHES */
-.details {
-  color: #333;
-  font-size: 0.9em;
-  text-align: left;
-  margin: 1em 0;
-  padding: 0 0.5em;
-  line-height: 1.4em;
-  word-break: break-word;
-}
+  .heading {
+    position: relative;
+    color: black;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding-top: 1em;
+    padding-left: 1em;
+    transition: .4s ease-in-out;
+  }
 
-/* PREÇO */
-.price {
-  color: black;
-  font-weight: bold;
-  font-size: 1em;
-  margin-bottom: 0.8em;
-}
+  .card:hover .heading {
+    transform: translateY(7em) translateX(2.3em);
+  }
 
-/* BOTÃO EDITAR */
-.btn-editar {
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85em;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
+  .details {
+    position: relative;
+    color: black;
+    font-size: 0.6em;
+    padding-top: 1.5em;
+    padding-left: 2em;
+    transition: .4s ease-in-out;
+  }
 
-.btn-editar:hover {
-  background-color: #0056b3;
-}
+  .card:hover .details {
+    transform: translateY(13em) translateX(3.5em);
+  }
 
-/* FORMULÁRIOS */
-.form-container {
-  display: none;
-  flex-wrap: wrap;
-  gap: 2em;
-  justify-content: center;
-  padding: 2em;
-}
+  .price {
+    position: relative;
+    color: black;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding-top: 1.5em;
+    padding-left: 1.5em;
+    top: 9.6em;
+    left: 5em;
+    transition: .4s ease-in-out;
+  }
 
-form {
-  width: 260px;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
-  background: #f9f9f9;
-}
+  /* BOTÃO PADRÃO */
+  .btn-editar {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
 
-/* CAMPOS DE INPUT */
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-}
+  .btn-editar:hover {
+    background-color: #0056b3;
+  }
 
-/* BOTÃO SALVAR */
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  /* BOTÕES EXTRA DO UIVERSE */
+  .btn-editar {
+    position: relative;
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    font-size: 0.6em;
+    padding-left: 6.9em;
+    padding-right: 6.9em;
+    padding-top: 0.8em;
+    padding-bottom: 0.85em;
+    border-radius: 10px;
+    left: 2.6em;
+    top: 14.8em;
+    transition: .4s ease-in-out;
+    font-weight: bold;
+  }
 
-button:hover {
-  background-color: #218838;
-}
+  .btn-editar:hover {
+    background-color: limegreen;
+    cursor: pointer;
+  }
 
-/* MENSAGEM */
-.mensagem {
-  margin-top: 10px;
-  font-weight: bold;
-  font-size: 0.85em;
-}
+  .btn-editar {
+    position: relative;
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    font-size: 0.6em;
+    padding-left: 5.1em;
+    padding-right: 5.1em;
+    padding-top: 0.8em;
+    padding-bottom: 0.85em;
+    border-radius: 10px;
+    left: 2.6em;
+    top: 15.5em;
+    transition: .4s ease-in-out;
+    font-weight: bold;
+  }
 
+  .btn-editar:hover {
+    background-color: limegreen;
+    cursor: pointer;
+  }
+
+  .glasses {
+    position: relative;
+    top: -4em;
+    left: 9.5em;
+    width: 70px;
+    height: 70px;
+    transition: .4s ease-in-out;
+  }
+
+  .card:hover + .glasses {
+    transform: rotateX(360deg);
+    height: 100px;
+    width: 100px;
+    left: 3em;
+    top: -18em;
+  }
+
+  /* FORMULÁRIOS */
+  .form-container {
+    display: none;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+    padding: 2em;
+  }
+
+  form {
+    width: 260px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f9f9f9;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  .mensagem {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 0.85em;
+  }
   </style>
 </head>
 <body>
@@ -133,7 +231,12 @@ button:hover {
     <div class="details" id="detalhes-soja">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
     <div class="price" id="preco-soja">R$: --</div>
     <button onclick="mostrarFormulario('formSoja')" class="btn-editar">Editar</button>
-  </div>
+ 
+  <!-- Imagem dos soja -->
+  <img class="glasses" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLphsgF8Gd-H382zicb-9935K4CkmAT6fMeg&s" alt="Óculos"/>
+  </div>   
+  
+  
   <!-- Milho -->
   <div class="card">
     <div class="heading">Milho</div>
@@ -322,3 +425,5 @@ button:hover {
 
 </body>
 </html>
+
+
