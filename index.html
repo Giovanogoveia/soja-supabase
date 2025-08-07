@@ -4,154 +4,255 @@
   <meta charset="UTF-8" />
   <title>Dashboard</title>
   <style>
-    .main {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1em;
-      justify-content: center;
-    }
+    /* CONTAINER PRINCIPAL */
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  padding-top: 2em;
+}
 
-    .card {
-      position: relative;
-      width: 200px;
-      background: white;
-      transition: .3s ease;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 1em;
-      text-align: center;
-    }
+/* CARD */
+.card {
+  width: 200px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px;
+  padding: 1em;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .heading {
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-bottom: 0.5em;
-    }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
 
-    .details {
-      font-size: 0.9em;
-      margin-bottom: 0.5em;
-    }
+/* TÍTULO */
+.heading {
+  color: black;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
 
-    .price {
-      font-weight: bold;
-      margin-bottom: 0.5em;
-    }
+/* DETALHES */
+.details {
+  color: #333;
+  font-size: 0.9em;
+  text-align: left;
+  margin: 1em 0;
+  padding: 0 0.5em;
+  line-height: 1.4em;
+  word-break: break-word;
+}
 
-    .btn-editar {
-      padding: 6px 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8em;
-      width: 90%;
-    }
+/* PREÇO */
+.price {
+  color: black;
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 0.8em;
+}
 
-    .btn-editar:hover {
-      background-color: #0056b3;
-    }
+/* BOTÃO EDITAR */
+.btn-editar {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85em;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
 
-    .form-container {
-      display: none;
-      flex-wrap: wrap;
-      gap: 2em;
-      justify-content: center;
-      padding: 2em;
-    }
+.btn-editar:hover {
+  background-color: #0056b3;
+}
 
-    form {
-      width: 250px;
-      border: 1px solid #ddd;
-      padding: 20px;
-      border-radius: 10px;
-      background: #f9f9f9;
-    }
+/* FORMULÁRIOS */
+.form-container {
+  display: none;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+  padding: 2em;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      box-sizing: border-box;
-    }
+form {
+  width: 260px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
 
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 15px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+/* CAMPOS DE INPUT */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
 
-    button:hover {
-      background-color: #218838;
-    }
+/* BOTÃO SALVAR */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-    .mensagem {
-      margin-top: 10px;
-      font-weight: bold;
-    }
+button:hover {
+  background-color: #218838;
+}
+
+/* MENSAGEM */
+.mensagem {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
   </style>
 </head>
 <body>
 
+<!-- CARDS -->
 <div class="main">
+  <!-- Soja -->
   <div class="card">
     <div class="heading">Soja</div>
     <div class="details" id="detalhes-soja">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
     <div class="price" id="preco-soja">R$: --</div>
     <button onclick="mostrarFormulario('formSoja')" class="btn-editar">Editar</button>
   </div>
-
+  <!-- Milho -->
   <div class="card">
     <div class="heading">Milho</div>
     <div class="details" id="detalhes-milho">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
     <div class="price" id="preco-milho">R$: --</div>
     <button onclick="mostrarFormulario('formMilho')" class="btn-editar">Editar</button>
   </div>
+  <!-- Trigo -->
+  <div class="card">
+    <div class="heading">Trigo</div>
+    <div class="details" id="detalhes-trigo">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
+    <div class="price" id="preco-trigo">R$: --</div>
+    <button onclick="mostrarFormulario('formTrigo')" class="btn-editar">Editar</button>
+  </div>
+  <!-- Lenha -->
+  <div class="card">
+    <div class="heading">Lenha</div>
+    <div class="details" id="detalhes-lenha">Estoque Atual: -- <br> Meta: -- <br> Recebimento: --</div>
+    <div class="price" id="preco-lenha">R$: --</div>
+    <button onclick="mostrarFormulario('formLenha')" class="btn-editar">Editar</button>
+  </div>
+  <!-- Armazenamento -->
+  <div class="card">
+    <div class="heading">Armazenamento</div>
+    <div class="details" id="detalhes-armazenamento">Capacidade: -- <br> Utilizado: -- <br> Disponível: --</div>
+    <div class="price" id="preco-armazenamento">R$: --</div>
+    <button onclick="mostrarFormulario('formArmazenamento')" class="btn-editar">Editar</button>
+  </div>
+  <!-- Pessoa -->
+  <div class="card">
+    <div class="heading">Pessoa</div>
+    <div class="details" id="detalhes-pessoa">Funcionários: -- <br> Ativos: -- <br> Inativos: --</div>
+    <div class="price" id="preco-pessoa">R$: --</div>
+    <button onclick="mostrarFormulario('formPessoa')" class="btn-editar">Editar</button>
+  </div>
+  <!-- Estoque Geral -->
+  <div class="card">
+    <div class="heading">Estoque Geral</div>
+    <div class="details" id="detalhes-geral">Total: -- <br> Entrada: -- <br> Saída: --</div>
+    <div class="price" id="preco-geral">R$: --</div>
+    <button onclick="mostrarFormulario('formGeral')" class="btn-editar">Editar</button>
+  </div>
 </div>
 
-<!-- Container único com os formulários -->
-<div class="form-container">
+<!-- FORMULÁRIOS -->
+<div class="form-container" id="formularios">
   <!-- Formulário Soja -->
-  <form id="formSoja" style="display:none;">
-    <h2>Cadastro Soja</h2>
-    <label for="estoque">Estoque Atual:</label>
-    <input type="number" id="estoque" required>
+<form id="formSoja" style="display:none;">
+  <h2>Cadastro Soja</h2>
+  <label>Estoque Atual:</label><input type="number" id="estoqueatual_soja" required>
+  <label>Meta:</label><input type="number" id="meta_soja" required>
+  <label>Recebimento:</label><input type="number" id="recebimento_soja" required>
+  <label>Percentual Meta:</label><input type="number" id="percentual_metal_soja" required>
+  <button type="submit">Salvar</button>
+  <div class="mensagem" id="mensagem_soja"></div>
+</form>
 
-    <label for="meta">Meta:</label>
-    <input type="number" id="meta" required>
+<!-- Formulário Milho -->
+<form id="formMilho" style="display:none;">
+  <h2>Cadastro Milho</h2>
+  <label>Estoque Atual:</label><input type="number" id="estoqueatual_milho" required>
+  <label>Meta:</label><input type="number" id="meta_milho" required>
+  <label>Recebimento:</label><input type="number" id="recebimento_milho" required>
+  <label>Percentual Meta:</label><input type="number" id="percentual_metal_milho" required>
+  <button type="submit">Salvar</button>
+  <div class="mensagem" id="mensagem_milho"></div>
+</form>
 
-    <label for="recebimento">Recebimento:</label>
-    <input type="number" id="recebimento" required>
-
-    <label for="percentual_metal">Percentual Meta:</label>
-    <input type="number" id="percentual_metal" required>
-
+  <!-- Formulário Trigo -->
+  <form id="formTrigo" style="display:none;">
+    <h2>Cadastro Trigo</h2>
+    <label>Estoque Atual:</label><input type="number" id="estoque_trigo" required>
+    <label>Meta:</label><input type="number" id="meta_trigo" required>
+    <label>Recebimento:</label><input type="number" id="recebimento_trigo" required>
+    <label>Percentual Meta:</label><input type="number" id="percentual_metal_trigo" required>
     <button type="submit">Salvar</button>
-    <div class="mensagem" id="mensagem"></div>
+    <div class="mensagem" id="mensagem_trigo"></div>
   </form>
 
-  <!-- Formulário Milho -->
-  <form id="formMilho" style="display:none;">
-    <h2>Cadastro Milho</h2>
-    <label for="estoque_milho">Estoque Atual:</label>
-    <input type="number" id="estoque_milho" required>
-
-    <label for="meta_milho">Meta:</label>
-    <input type="number" id="meta_milho" required>
-
-    <label for="recebimento_milho">Recebimento:</label>
-    <input type="number" id="recebimento_milho" required>
-
-    <label for="percentual_metal_milho">Percentual Meta:</label>
-    <input type="number" id="percentual_metal_milho" required>
-
+  <!-- Formulário Lenha -->
+  <form id="formLenha" style="display:none;">
+    <h2>Cadastro Lenha</h2>
+    <label>Estoque Atual:</label><input type="number" id="estoque_lenha" required>
+    <label>Meta:</label><input type="number" id="meta_lenha" required>
+    <label>Recebimento:</label><input type="number" id="recebimento_lenha" required>
+    <label>Percentual Meta:</label><input type="number" id="percentual_metal_lenha" required>
     <button type="submit">Salvar</button>
-    <div class="mensagem" id="mensagem_milho"></div>
+    <div class="mensagem" id="mensagem_lenha"></div>
+  </form>
+
+  <!-- Formulário Armazenamento -->
+  <form id="formArmazenamento" style="display:none;">
+    <h2>Cadastro Armazenamento</h2>
+    <label>Capacidade Total:</label><input type="number" id="capacidade_total" required>
+    <label>Utilizado:</label><input type="number" id="utilizado" required>
+    <label>Disponível:</label><input type="number" id="disponivel" required>
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem_armazenamento"></div>
+  </form>
+
+  <!-- Formulário Pessoa -->
+  <form id="formPessoa" style="display:none;">
+    <h2>Cadastro Pessoa</h2>
+    <label>Total Funcionários:</label><input type="number" id="total_funcionarios" required>
+    <label>Ativos:</label><input type="number" id="ativos" required>
+    <label>Inativos:</label><input type="number" id="inativos" required>
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem_pessoa"></div>
+  </form>
+
+  <!-- Formulário Estoque Geral -->
+  <form id="formGeral" style="display:none;">
+    <h2>Cadastro Estoque Geral</h2>
+    <label>Estoque Total:</label><input type="number" id="estoque_total" required>
+    <label>Entrada:</label><input type="number" id="entrada" required>
+    <label>Saída:</label><input type="number" id="saida" required>
+    <label>Saldo:</label><input type="number" id="saldo" required>
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem_geral"></div>
   </form>
 </div>
 
@@ -164,119 +265,60 @@
   }
 </script>
 
-<!-- Script Supabase -->
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
   const supabase = createClient(
-    "https://dylziaqkyavkfwjepqkp.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM"
+    'https://dylziaqkyavkfwjepqkp.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5bHppYXFreWF2a2Z3amVwcWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTc1OTgsImV4cCI6MjA2ODAzMzU5OH0.gy5jXxKOTgeCf0Rwq7ktLTz1pyoZ8dJjZOK9UB9rHCM'
   );
 
-  const formSoja = document.getElementById('formSoja');
-  const formMilho = document.getElementById('formMilho');
-  const msgSoja = document.getElementById('mensagem');
-  const msgMilho = document.getElementById('mensagem_milho');
+  window.addEventListener('DOMContentLoaded', async () => {
+    const cards = [
+      { nome: 'soja', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
+      { nome: 'milho', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
+      { nome: 'trigo', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
+      { nome: 'lenha', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
+      { nome: 'armazenamento', campos: ['capacidade_total', 'utilizado', 'disponivel'] },
+      { nome: 'pessoa', campos: ['total_funcionarios', 'ativos', 'inativos'] },
+      { nome: 'geral', campos: ['estoque_total', 'entrada', 'saida', 'saldo'] },
+    ];
 
-  async function carregarCard() {
-    try {
-      // Soja
-      const { data: dataSoja } = await supabase
-        .from('soja')
-        .select('*')
-        .order('timestamp', { ascending: false })
-        .limit(1);
+    for (const { nome, campos } of cards) {
+      const { data, error } = await supabase.from(nome).select('*').order('timestamp', { ascending: false }).limit(1);
+      if (error) continue;
+      if (!data || data.length === 0) continue;
+      const dados = data[0];
+      const detalhes = campos.map(c => `${c.replace('_', ' ')}: ${dados[c] ?? '--'}`).join(' <br> ');
+      const preco = dados.percentual_metal || dados.saldo || dados.disponivel || dados.inativos || '--';
+      document.getElementById(`detalhes-${nome}`).innerHTML = detalhes;
+      document.getElementById(`preco-${nome}`).innerText = `R$: ${parseFloat(preco).toFixed(2)}`;
 
-      if (dataSoja?.length > 0) {
-        const s = dataSoja[0];
-        document.getElementById('detalhes-soja').innerHTML = `
-          Estoque Atual: ${s.estoqueatual.toLocaleString()} <br>
-          Meta: ${s.meta.toLocaleString()} <br>
-          Recebimento: ${s.recebimento.toLocaleString()}`;
-        document.getElementById('preco-soja').innerText = `R$: ${s.percentual_metal.toFixed(2)}`;
-        document.getElementById('estoque').value = s.estoqueatual;
-        document.getElementById('meta').value = s.meta;
-        document.getElementById('recebimento').value = s.recebimento;
-        document.getElementById('percentual_metal').value = s.percentual_metal;
-      }
-
-      // Milho
-      const { data: dataMilho } = await supabase
-        .from('milho')
-        .select('*')
-        .order('timestamp', { ascending: false })
-        .limit(1);
-
-      if (dataMilho?.length > 0) {
-        const m = dataMilho[0];
-        document.getElementById('detalhes-milho').innerHTML = `
-          Estoque Atual: ${m.estoqueatual.toLocaleString()} <br>
-          Meta: ${m.meta.toLocaleString()} <br>
-          Recebimento: ${m.recebimento.toLocaleString()}`;
-        document.getElementById('preco-milho').innerText = `R$: ${m.percentual_metal.toFixed(2)}`;
-        document.getElementById('estoque_milho').value = m.estoqueatual;
-        document.getElementById('meta_milho').value = m.meta;
-        document.getElementById('recebimento_milho').value = m.recebimento;
-        document.getElementById('percentual_metal_milho').value = m.percentual_metal;
-      }
-
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error);
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', carregarCard);
-
-  formSoja.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const estoque = parseFloat(document.getElementById('estoque').value);
-    const meta = parseFloat(document.getElementById('meta').value);
-    const recebimento = parseFloat(document.getElementById('recebimento').value);
-    const percentual = parseFloat(document.getElementById('percentual_metal').value);
-
-    const { error } = await supabase.from('soja').insert([{
-      estoqueatual: estoque,
-      meta: meta,
-      recebimento: recebimento,
-      percentual_metal: percentual,
-      timestamp: new Date().toISOString()
-    }]);
-
-    msgSoja.innerHTML = error
-      ? `<span style="color:red;">Erro: ${error.message}</span>`
-      : `<span style="color:green;">Dados salvos com sucesso!</span>`;
-
-    if (!error) {
-      formSoja.reset();
-      carregarCard();
+      // preencher campos do formulário com último registro
+      campos.forEach(campo => {
+        const input = document.getElementById(`${campo}_${nome}`) || document.getElementById(campo);
+        if (input) input.value = dados[campo] ?? '';
+      });
     }
   });
 
-  formMilho.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const estoque = parseFloat(document.getElementById('estoque_milho').value);
-    const meta = parseFloat(document.getElementById('meta_milho').value);
-    const recebimento = parseFloat(document.getElementById('recebimento_milho').value);
-    const percentual = parseFloat(document.getElementById('percentual_metal_milho').value);
+  const formularios = document.querySelectorAll('form');
+  formularios.forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = form.id.replace('form', '').toLowerCase();
+      const inputs = form.querySelectorAll('input');
+      const dados = { timestamp: new Date().toISOString() };
+      inputs.forEach(input => dados[input.id.replace(`_${id}`, '')] = parseFloat(input.value));
 
-    const { error } = await supabase.from('milho').insert([{
-      estoqueatual: estoque,
-      meta: meta,
-      recebimento: recebimento,
-      percentual_metal: percentual,
-      timestamp: new Date().toISOString()
-    }]);
-
-    msgMilho.innerHTML = error
-      ? `<span style="color:red;">Erro: ${error.message}</span>`
-      : `<span style="color:green;">Dados salvos com sucesso!</span>`;
-
-    if (!error) {
-      formMilho.reset();
-      carregarCard();
-    }
+      const { error } = await supabase.from(id).insert([dados]);
+      const msg = form.querySelector('.mensagem');
+      msg.innerHTML = error ? `<span style='color:red;'>Erro: ${error.message}</span>` : `<span style='color:green;'>Salvo com sucesso!</span>`;
+      if (!error) form.reset();
+    });
   });
 </script>
+
 
 </body>
 </html>
