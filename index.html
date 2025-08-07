@@ -14,13 +14,6 @@
     padding-top: 2em;
   }
   
-  .card:hover + .glasses {
-  transform: rotateX(360deg);
-  height: 100px;
-  width: 100px;
-  left: 3em;
-  top: -18em;
-}
 
 
   /* CARD - ESTILO UNIVERSO.IO */
@@ -63,6 +56,14 @@
     padding-top: 1em;
     padding-left: 1em;
     transition: .4s ease-in-out;
+  }
+  
+  .card:hover + .glasses {
+  transform: rotateX(360deg);
+  height: 100px;
+  width: 100px;
+  left: 3em;
+  top: -18em;
   }
 
   .card:hover .heading {
@@ -177,12 +178,34 @@
 
   /* FORMULÁRIOS */
   .form-container {
-    display: none;
-    flex-wrap: wrap;
-    gap: 2em;
-    justify-content: center;
-    padding: 2em;
-  }
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6); /* fundo escuro */
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  max-width: 90%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
 
   form {
     width: 260px;
@@ -279,34 +302,38 @@
     <div class="price" id="preco-geral">R$: --</div>
     <button onclick="mostrarFormulario('formGeral')" class="btn-editar">Editar</button>
   </div>
-</div>
 
+
+<!-- FORMULÁRIOS -->
 <!-- FORMULÁRIOS -->
 <div class="form-container" id="formularios">
   <!-- Formulário Soja -->
-<form id="formSoja" style="display:none;">
-  <h2>Cadastro Soja</h2>
-  <label>Estoque Atual:</label><input type="number" id="estoqueatual_soja" required>
-  <label>Meta:</label><input type="number" id="meta_soja" required>
-  <label>Recebimento:</label><input type="number" id="recebimento_soja" required>
-  <label>Percentual Meta:</label><input type="number" id="percentual_metal_soja" required>
-  <button type="submit">Salvar</button>
-  <div class="mensagem" id="mensagem_soja"></div>
-</form>
+  <form id="formSoja" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
+    <h2>Cadastro Soja</h2>
+    <label>Estoque Atual:</label><input type="number" id="estoqueatual_soja" required>
+    <label>Meta:</label><input type="number" id="meta_soja" required>
+    <label>Recebimento:</label><input type="number" id="recebimento_soja" required>
+    <label>Percentual Meta:</label><input type="number" id="percentual_metal_soja" required>
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem_soja"></div>
+  </form>
 
-<!-- Formulário Milho -->
-<form id="formMilho" style="display:none;">
-  <h2>Cadastro Milho</h2>
-  <label>Estoque Atual:</label><input type="number" id="estoqueatual_milho" required>
-  <label>Meta:</label><input type="number" id="meta_milho" required>
-  <label>Recebimento:</label><input type="number" id="recebimento_milho" required>
-  <label>Percentual Meta:</label><input type="number" id="percentual_metal_milho" required>
-  <button type="submit">Salvar</button>
-  <div class="mensagem" id="mensagem_milho"></div>
-</form>
+  <!-- Formulário Milho -->
+  <form id="formMilho" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
+    <h2>Cadastro Milho</h2>
+    <label>Estoque Atual:</label><input type="number" id="estoqueatual_milho" required>
+    <label>Meta:</label><input type="number" id="meta_milho" required>
+    <label>Recebimento:</label><input type="number" id="recebimento_milho" required>
+    <label>Percentual Meta:</label><input type="number" id="percentual_metal_milho" required>
+    <button type="submit">Salvar</button>
+    <div class="mensagem" id="mensagem_milho"></div>
+  </form>
 
   <!-- Formulário Trigo -->
   <form id="formTrigo" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
     <h2>Cadastro Trigo</h2>
     <label>Estoque Atual:</label><input type="number" id="estoque_trigo" required>
     <label>Meta:</label><input type="number" id="meta_trigo" required>
@@ -318,6 +345,7 @@
 
   <!-- Formulário Lenha -->
   <form id="formLenha" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
     <h2>Cadastro Lenha</h2>
     <label>Estoque Atual:</label><input type="number" id="estoque_lenha" required>
     <label>Meta:</label><input type="number" id="meta_lenha" required>
@@ -329,6 +357,7 @@
 
   <!-- Formulário Armazenamento -->
   <form id="formArmazenamento" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
     <h2>Cadastro Armazenamento</h2>
     <label>Capacidade Total:</label><input type="number" id="capacidade_total" required>
     <label>Utilizado:</label><input type="number" id="utilizado" required>
@@ -339,6 +368,7 @@
 
   <!-- Formulário Pessoa -->
   <form id="formPessoa" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
     <h2>Cadastro Pessoa</h2>
     <label>Total Funcionários:</label><input type="number" id="total_funcionarios" required>
     <label>Ativos:</label><input type="number" id="ativos" required>
@@ -349,6 +379,7 @@
 
   <!-- Formulário Estoque Geral -->
   <form id="formGeral" style="display:none;">
+    <button type="button" onclick="fecharFormulario()" style="float:right;background:red;color:#fff;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;">X</button>
     <h2>Cadastro Estoque Geral</h2>
     <label>Estoque Total:</label><input type="number" id="estoque_total" required>
     <label>Entrada:</label><input type="number" id="entrada" required>
@@ -404,6 +435,15 @@
       });
     }
   });
+  function fecharFormulario() {
+  document.querySelector('.form-container').style.display = 'none';
+  const forms = document.querySelectorAll('.form-container form');
+  forms.forEach(form => form.style.display = 'none');
+}
+document.querySelector('.form-container').addEventListener('click', function(e) {
+  if (e.target === this) fecharFormulario();
+});
+
 
   const formularios = document.querySelectorAll('form');
   formularios.forEach(form => {
@@ -417,7 +457,12 @@
       const { error } = await supabase.from(id).insert([dados]);
       const msg = form.querySelector('.mensagem');
       msg.innerHTML = error ? `<span style='color:red;'>Erro: ${error.message}</span>` : `<span style='color:green;'>Salvo com sucesso!</span>`;
-      if (!error) form.reset();
+      if (!error) {
+  fecharFormulario(); // Fecha o formulário
+  location.reload();  // Recarrega a página
+}
+
+
     });
   });
 </script>
@@ -425,5 +470,3 @@
 
 </body>
 </html>
-
-
