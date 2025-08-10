@@ -8,6 +8,7 @@ const supabase = createClient(
 // ===== helpers =====
 const TABELA_GERAL = 'geral';
 
+// nomes canônicos que existem no Supabase
 const CARDS = [
   { nome: 'soja', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
   { nome: 'milho', campos: ['estoqueatual', 'meta', 'recebimento', 'percentual_metal'] },
@@ -18,51 +19,41 @@ const CARDS = [
   { nome: TABELA_GERAL, campos: ['estoque_total', 'entrada', 'saida', 'saldo'] },
 ];
 
-// rótulos fixos por card/campo (o que aparece no HTML)
-const ROTULOS = {
-  soja: {
-    estoqueatual: 'Estoque Atual',
-    meta: 'Meta',
-    recebimento: 'Recebimento',
-    percentual_metal: 'Percentual Meta',
-  },
-  milho: {
-    estoqueatual: 'Estoque Atual',
-    meta: 'Meta',
-    recebimento: 'Recebimento',
-    percentual_metal: 'Percentual Meta',
-  },
-  trigo: {
-    estoqueatual: 'Estoque Atual',
-    meta: 'Meta',
-    recebimento: 'Recebimento',
-    percentual_metal: 'Percentual Meta',
-  },
-  lenha: {
-    estoqueatual: 'Estoque Atual',
-    meta: 'Meta',
-    recebimento: 'Recebimento',
-    percentual_metal: 'Percentual Meta',
-  },
-  armazenamento: {
-    capacidade_total: 'Capacidade',
-    utilizado: 'Utilizado',
-    disponivel: 'Disponível',
-  },
-  pessoa: {
-    total_funcionarios: 'Funcionários',
-    ativos: 'Ativos',
-    inativos: 'Inativos',
-  },
-  [TABELA_GERAL]: {
-    estoque_total: 'Total',
-    entrada: 'Entrada',
-    saida: 'Saída',
-    saldo: 'Saldo',
-  },
+// apelidos de nomes de cards no HTML -> canônico
+const NOME_ALIAS = {
+  miho: 'milho',
+  pessoal: 'pessoa',
+  armazenagem: 'armazenamento',
+};
+const REVERSE_ALIAS = {
+  milho: ['miho'],
+  pessoa: ['pessoal'],
+  armazenamento: ['armazenagem'],
 };
 
-// qual campo vira o “preço” (R$) em cada card
+// mapeia nomes de campos vindos do form para o canônico usado no DB
+const CAMPO_ALIAS_FORWARD = {
+  trigo: { estoque: 'estoqueatual' },
+  lenha: { estoque: 'estoqueatual' },
+};
+// quando lendo do DB, aceita alternativas também
+const CAMPO_ALT_READ = {
+  trigo: { estoqueatual: ['estoque'] },
+  lenha: { estoqueatual: ['estoque'] },
+};
+
+// rótulos fixos por card/campo (texto mostrado no HTML)
+const ROTULOS = {
+  soja: { estoqueatual: 'Estoque Atual', meta: 'Meta', recebimento: 'Recebimento', percentual_metal: 'Percentual Meta' },
+  milho:{ estoqueatual: 'Estoque Atual', meta: 'Meta', recebimento: 'Recebimento', percentual_metal: 'Percentual Meta' },
+  trigo:{ estoqueatual: 'Estoque Atual', meta: 'Meta', recebimento: 'Recebimento', percentual_metal: 'Percentual Meta' },
+  lenha:{ estoqueatual: 'Estoque Atual', meta: 'Meta', recebimento: 'Recebimento', percentual_metal: 'Percentual Meta' },
+  armazenamento: { capacidade_total: 'Capacidade', utilizado: 'Utilizado', disponivel: 'Disponível' },
+  pessoa:{ total_funcionarios: 'Funcionários', ativos: 'Ativos', inativos: 'Inativos' },
+  [TABELA_GERAL]: { estoque_total: 'Total', entrada: 'Entrada', saida: 'Saída', saldo: 'Saldo' },
+};
+
+// qual campo vira o “R$” em cada card
 const CHAVE_PRECO = {
   soja: 'percentual_metal',
   milho: 'percentual_metal',
@@ -83,45 +74,64 @@ const MASCARA_MOEDA = (v) =>
     ? '--'
     : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+// util: pega elemento por id, aceitando canônico e apelidos
+function getEl(prefix, canonicalName) {
+  const elCanon = document.getElementById(`${prefix}-${canonicalName}`);
+  if (elCanon) return elCanon;
+  const alts = REVERSE_ALIAS[canonicalName] || [];
+  for (const alt of alts) {
+    const el = document.getElementById(`${prefix}-${alt}`);
+    if (el) return el;
+  }
+  return null;
+}
+
+// util: pega valor considerando alternativas de nome de campo
+function getValor(nomeCard, campoCanon, dados) {
+  if (dados[campoCanon] !== undefined) return dados[campoCanon];
+  const alts = (CAMPO_ALT_READ[nomeCard] && CAMPO_ALT_READ[nomeCard][campoCanon]) || [];
+  for (const alt of alts) {
+    if (dados[alt] !== undefined) return dados[alt];
+  }
+  return undefined;
+}
+
 // monta (ou atualiza) os detalhes com rótulos fixos + spans de valor
 function renderDetalhes(nome, campos, dados) {
-  const el = document.getElementById(`detalhes-${nome}`);
+  const el = getEl('detalhes', nome);
   if (!el) return;
 
-  // se já existem spans, só troca os valores
   const jaTemSpans = el.querySelector('span[data-campo]');
   if (jaTemSpans) {
     campos.forEach((campo) => {
       const span = el.querySelector(`span[data-campo="${campo}"]`);
-      if (span) span.textContent = MASCARA_NUM(dados[campo]);
+      const val = getValor(nome, campo, dados);
+      if (span) span.textContent = MASCARA_NUM(val);
     });
     return;
   }
 
-  // primeira renderização: constroi HTML mantendo rótulos fixos
   const labels = ROTULOS[nome] || {};
   el.innerHTML = campos
-    .map(
-      (c) =>
-        `${labels[c] || c}: <span class="valor" data-card="${nome}" data-campo="${c}">${MASCARA_NUM(
-          dados[c]
-        )}</span>`
-    )
+    .map((c) => {
+      const val = getValor(nome, c, dados);
+      return `${labels[c] || c}: <span class="valor" data-card="${nome}" data-campo="${c}">${MASCARA_NUM(val)}</span>`;
+    })
     .join(' <br> ');
 }
 
 function renderPreco(nome, dados) {
-  const el = document.getElementById(`preco-${nome}`);
+  const el = getEl('preco', nome);
   if (!el) return;
   const chave = CHAVE_PRECO[nome];
-  const base = chave ? dados[chave] : null;
+  const base = getValor(nome, chave, dados);
   el.textContent = `R$: ${MASCARA_MOEDA(base)}`;
 }
 
 function prefillForm(campos, nome, dados) {
   campos.forEach((campo) => {
     const input = document.getElementById(`${campo}_${nome}`) || document.getElementById(campo);
-    if (input) input.value = dados[campo] ?? '';
+    if (input) input.value = getValor(nome, campo, dados) ?? '';
   });
 }
 
@@ -183,18 +193,26 @@ window.addEventListener('DOMContentLoaded', async () => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const nome = form.id.replace('form', '').toLowerCase(); // ex.: formSoja -> soja
+      // ex.: formSoja -> soja
+      let nome = form.id.replace('form', '').toLowerCase();
+      // normaliza apelidos de form, se algum dia usar (formPessoal, formArmazenagem, etc)
+      nome = NOME_ALIAS[nome] || nome;
+
       const inputs = form.querySelectorAll('input');
       const payload = { timestamp: new Date().toISOString() };
 
       inputs.forEach((input) => {
-        // ids do tipo: estoqueatual_soja / meta_milho / saldo (geral)
-        const key = input.id.replace(`_${nome}`, '');
+        // ids do tipo: estoqueatual_soja / meta_milho / estoque_trigo / estoque_lenha / saldo
+        const raw = input.id.replace(`_${nome}`, ''); // tira sufixo do card
+        const canonical =
+          (CAMPO_ALIAS_FORWARD[nome] && CAMPO_ALIAS_FORWARD[nome][raw]) || raw;
+
         const num = Number(input.value);
-        payload[key] = input.value === '' ? null : (Number.isNaN(num) ? input.value : num);
+        payload[canonical] = input.value === '' ? null : (Number.isNaN(num) ? input.value : num);
       });
 
       const { error } = await supabase.from(nome).insert([payload]);
+
       const msg = form.querySelector('.mensagem');
       if (msg) {
         msg.innerHTML = error
@@ -203,12 +221,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       }
 
       if (!error) {
-        // atualiza o card na hora, sem recarregar
-        atualizaCardDOM(nome, payload);
+        atualizaCardDOM(nome, payload); // atualiza o card na hora
         fecharFormulario();
       }
     });
   });
 });
+
+
 
 
