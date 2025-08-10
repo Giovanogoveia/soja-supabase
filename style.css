@@ -1,188 +1,211 @@
-/* LAYOUT PRINCIPAL */
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  justify-content: center;
-  padding-top: 2em;
-}
+:root {
+      --bg: #f6f7fb;
+      --card-bg: #fff;
+      --text: #111;
+      --muted: #666;
+      --accent: limegreen;
+      --shadow: rgba(0, 0, 0, 0.07);
+      --radius: 15px;
+    }
 
-/* CARD (estilo Uiverse) */
-.card {
-  position: relative;
-  top: 2em;
-  width: 12.5em;
-  height: 7.5em;
-  background: white;
-  transition: .4s ease-in-out;
-  border-radius: 15px;
-  box-shadow:
-    rgba(0, 0, 0, 0.07) 0px 1px 1px,
-    rgba(0, 0, 0, 0.07) 0px 2px 2px,
-    rgba(0, 0, 0, 0.07) 0px 4px 4px,
-    rgba(0, 0, 0, 0.07) 0px 8px 8px,
-    rgba(0, 0, 0, 0.07) 0px 16px 16px;
-  overflow: hidden;
-  text-align: left;
-  padding: 1em;
-}
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-/* Estado hover igual ao exemplo */
-.card:hover {
-  height: 23em;
-  transform: translateY(1.25em);
-}
+    h1 { margin: 24px 12px; text-align: center; }
 
-/* TÍTULO */
-.heading {
-  position: relative;
-  color: black;
-  font-weight: bold;
-  font-size: 1.1em;
-  padding-top: 1em;
-  padding-left: 1em;
-  transition: .4s ease-in-out;
-}
+    /* grid de cards */
+    .main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      justify-content: center;
+      padding: 0 12px 48px;
+    }
 
-/* DETALHES */
-.details {
-  position: relative;
-  color: black;
-  font-size: 0.6em;
-  padding-top: 1.5em;
-  padding-left: 2em;
-  transition: .4s ease-in-out;
-}
+    .card {
+      position: relative;
+      top: 2em;
+      width: 12.5em;
+      height: 8.5em; /* altura inicial */
+      background: var(--card-bg);
+      transition: height .4s ease-in-out, transform .4s ease-in-out, box-shadow .2s ease-in-out;
+      border-radius: var(--radius);
+      box-shadow:
+        var(--shadow) 0px 1px 1px,
+        var(--shadow) 0px 2px 2px,
+        var(--shadow) 0px 4px 4px,
+        var(--shadow) 0px 8px 8px,
+        var(--shadow) 0px 16px 16px;
+      overflow: hidden;
+      padding-bottom: 1rem;
+      cursor: default;
+    }
 
-/* PREÇO */
-.price {
-  position: relative;
-  color: black;
-  font-weight: bold;
-  font-size: 0.8em;
-  padding-top: 1.5em;
-  padding-left: 1.5em;
-  top: 9.6em;
-  left: 5em;
-  transition: .4s ease-in-out;
-}
+    /* efeito ao passar o mouse: anima o card */
+    .card:hover {
+      height: 23em;                 /* abre o card */
+      transform: translateY(8px);   /* leve afundada */
+      box-shadow:
+        rgba(0,0,0,.08) 0 8px 30px;
+    }
 
-/* BOTÕES (como no exemplo: .btn1 e .btn2) */
-.btn1, .btn2 {
-  position: relative;
-  border: none;
-  outline: none;
-  background-color: black;
-  color: white;
-  font-size: 0.6em;
-  border-radius: 10px;
-  left: 2.6em;
-  transition: .4s ease-in-out;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .heading {
+      color: var(--text);
+      font-weight: bold;
+      font-size: 1.1em;
+      padding-top: 1em;
+      padding-left: 1em;
+      transition: transform .4s ease-in-out;
+      will-change: transform;
+    }
 
-.btn1 {
-  padding: 0.8em 6.9em;
-  top: 14.8em;
-}
+    .details {
+      position: relative;
+      color: var(--text);
+      font-size: 0.75em;
+      line-height: 1.45;
+      padding-top: 1em;
+      padding-left: 2em;
+      transition: transform .4s ease-in-out;
+      will-change: transform;
+    }
 
-.btn2 {
-  padding: 0.8em 5.1em;
-  top: 15.5em;
-}
+    /* move textos pra baixo quando o card abre */
+    .card:hover .heading {
+      transform: translate(2.3em, 7em);
+    }
+    .card:hover .details {
+      transform: translate(3em, 11.5em);
+    }
 
-.btn1:hover, .btn2:hover {
-  background-color: limegreen;
-}
+    /* preço aparece suave quando o card abre */
+    .price {
+      position: absolute;
+      left: 1.5em;
+      bottom: 3.8em;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95em;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .card:hover .price {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-/* IMAGEM AO LADO DO CARD */
-.glasses {
-  position: relative;
-  top: -4em;
-  left: 9.5em;
-  width: 70px;
-  height: 70px;
-  transition: .4s ease-in-out;
-  border-radius: 10px;
-}
+    /* botão "Editar" */
+    .btn-editar {
+      position: absolute;
+      right: 0.8em;
+      bottom: 0.8em;
+      border: none;
+      outline: none;
+      background-color: #111;
+      color: white;
+      font-size: 0.7em;
+      border-radius: 10px;
+      padding: 0.6em 0.9em;
+      transition: background-color .2s ease-in-out, transform .2s ease-in-out;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 2; /* acima da imagem */
+    }
+    .btn-editar:hover { background-color: var(--accent); color: #062f06; }
+    .card:hover .btn-editar { transform: translateY(2px); }
 
-/* Animações no hover (imagem, título e detalhes) */
-.card:hover + .glasses {
-  height: 100px;
-  width: 100px;
-  left: 3em;
-  top: -18em;
-}
+    /* imagem do card */
+    .glasses {
+      position: absolute;
+      top: .6em;
+      right: .6em;         /* começa no canto superior direito */
+      left: auto;
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      object-fit: contain;
+      pointer-events: none; /* não bloqueia clique no botão */
+      transition:
+        top .4s ease-in-out, left .4s ease-in-out, right .4s ease-in-out,
+        width .4s ease-in-out, height .4s ease-in-out, transform .4s ease-in-out;
+      transform: translate(0, 0);
+      z-index: 1;
+    }
+    /* ao abrir o card, centraliza e aumenta */
+    .card:hover .glasses {
+      top: 20%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+    }
 
-.card:hover .heading {
-  transform: translateY(7em) translateX(2.3em);
-}
+    /* modal de formulários */
+    .form-container {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.25);
+      padding: 16px;
+      z-index: 999;
+    }
+    .form-container.ativo { display: flex; }
 
-.card:hover .details {
-  transform: translateY(13em) translateX(3.5em);
-}
+    .form-container form {
+      width: min(520px, 92vw);
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 16px 16px;
+      box-shadow:
+        var(--shadow) 0px 1px 1px,
+        var(--shadow) 0px 2px 2px,
+        var(--shadow) 0px 4px 4px;
+      display: grid;
+      gap: 10px;
+    }
+    .form-container h2 { margin: 0 0 6px; }
+    .form-container label { font-size: .9rem; color: var(--muted); }
+    .form-container input {
+      padding: 10px 12px;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+    .form-container button[type="submit"] {
+      margin-top: 6px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: #111;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .form-container button[type="submit"]:hover { background: var(--accent); color: #062f06; }
 
-/* =========================
-   (OPCIONAL) FORMULÁRIOS MODAIS
-   Mantive seu estilo de formulário, sem mudanças visuais.
-   ========================= */
-.form-container {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 9999;
-  width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.6);
-  justify-content: center; align-items: center;
-}
+    .mensagem { font-size: .9rem; color: #0c7a0c; min-height: 1.2em; }
 
-.form-container form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px; max-width: 90%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  animation: fadeIn 0.3s ease-in-out;
-}
+    .btn-fechar {
+      float: right;
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-form {
-  width: 260px;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
-  background: #f9f9f9;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #218838;
-}
-
-.mensagem {
-  margin-top: 10px;
-  font-weight: bold;
-  font-size: 0.85em;
-}
+    /* responsivo */
+    @media (max-width: 520px) {
+      .card { width: 90vw; }
+    }
