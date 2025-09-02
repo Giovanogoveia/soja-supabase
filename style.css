@@ -209,3 +209,96 @@
     @media (max-width: 520px) {
       .card { width: 90vw; }
     }
+/* Seção de introdução */
+.intro {
+  background-color: var(--bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  font-family: inherit;
+  color: var(--text);
+}
+
+/* Título da seção */
+.intro h1 {
+  color: var(--accent);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* Parágrafo descritivo */
+.intro p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Controles de busca e ordenação */
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.controls input[type="text"],
+.controls select {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text);
+  background-color: #fff;
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: 0.3s ease;
+}
+
+.controls input::placeholder {
+  color: var(--muted);
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  border-color: #0c7a0c;
+  background-color: #f0fff0;
+}
+
+/* Grid de resumos */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Cartões de resumo */
+.summary-card {
+  background-color: var(--card-bg);
+  border-left: 6px solid var(--accent);
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Labels dos cards */
+.summary-card .label {
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Valores dos cards */
+.summary-card .value {
+  color: var(--text);
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
